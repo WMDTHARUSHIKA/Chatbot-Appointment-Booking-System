@@ -1,7 +1,7 @@
 // public/embed.js
 (function () {
   // ✅ Chatbot URL (embed mode opens chat UI immediately inside iframe)
-  const WIDGET_URL = "https://i-computer-chatbot.vercel.app/?embed=1";
+  const WIDGET_URL = "https://chatbot-appointment-booking-system.vercel.app/?embed=1";
 
   // Colors
   const BG = "#000000";
