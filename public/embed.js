@@ -42,7 +42,7 @@
       #icw-launcher{
         position:fixed;
         right:${GAP}px;
-        bottom:${GAP}px;
+        bottom:40px;
 
         height:${BTN_H}px;
         padding:0 18px;
