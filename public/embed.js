@@ -41,7 +41,7 @@
     style.textContent = `
       #icw-launcher{
         position:fixed;
-        right:${GAP}px;
+        right:40px;
         bottom:40px;
 
         height:${BTN_H}px;
