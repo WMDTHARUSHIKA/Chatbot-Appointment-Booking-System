@@ -131,7 +131,7 @@
       frame.style.display = "block";
       btn.setAttribute("aria-label", "Close chat");
       // keep pill style, show Close text like the screenshot style
-      btn.innerHTML = `${CLOSE_SVG}<span class="icw-label">Close</span>`;
+      btn.innerHTML = `${CLOSE_SVG}<span class="icw-label"></span>`;
     };
 
     const closeChat = () => {
