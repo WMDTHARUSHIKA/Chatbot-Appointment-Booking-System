@@ -1,10 +1,10 @@
 // public/embed.js
 (function () {
   const init = () => {
-    // ✅ Chatbot URL
+    // Chatbot URL (embed mode)
     const WIDGET_URL = "https://chatbot-appointment-booking-system.vercel.app/?embed=1";
 
-    // ✅ Colors (green)
+    // Colors (green theme)
     const BG = "#0f8a83";
     const FG = "#ffffff";
     const HOVER = "#0c746e";
@@ -29,6 +29,7 @@
       </svg>
     `;
 
+    // Styles
     const style = document.createElement("style");
     style.id = "icw-style";
     style.textContent = `
@@ -77,7 +78,7 @@
           left:12px;
           width:auto;
           height:75vh;
-          bottom:${(12 + BTN + 12)}px;
+          bottom:${12 + BTN + 12}px;
           border-radius:18px;
         }
         #icw-launcher{
@@ -88,17 +89,21 @@
     `;
     document.head.appendChild(style);
 
-    // iframe
+    // Iframe
     const frame = document.createElement("iframe");
     frame.id = "icw-frame";
     frame.src = WIDGET_URL;
-    frame.allow = "clipboard-write";
-    frame.style.background = "transparent";
     frame.setAttribute("loading", "lazy");
     frame.setAttribute("title", "Chat widget");
+    frame.allow = "clipboard-write";
+
+    // ✅ IMPORTANT: block alert/confirm/prompt popups from embedded app
+    // (No "allow-modals" here)
+    frame.sandbox = "allow-scripts allow-same-origin allow-forms allow-popups";
+
     document.body.appendChild(frame);
 
-    // toggle button
+    // Toggle button
     const btn = document.createElement("button");
     btn.id = "icw-launcher";
     btn.type = "button";
@@ -124,11 +129,13 @@
       else openChat();
     });
 
+    // ESC closes
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && frame.style.display === "block") closeChat();
     });
   };
 
+  // Run safely after DOM is ready
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
