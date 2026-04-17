@@ -134,8 +134,7 @@ export default function App() {
   // ✅ NEW: reset/refresh chat history
   const handleResetChat = () => {
     // Optional confirm (remove if you don't want popup)
-    const ok = window.confirm("Clear chat history?");
-    if (!ok) return;
+    
 
     abortRef.current?.abort?.();
     setIsLoading(false);
