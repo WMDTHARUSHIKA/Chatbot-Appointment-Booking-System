@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+/* Base */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+    background: #f1f0e9;
+  }
+
+  /* ✅ When loaded inside iframe as ?embed=1 */
+  body.chat-embed {
+    background: transparent !important;
+    min-height: 0 !important;
+  }
+}
+
+/* Components */
+@layer components {
+  /* Bottom-right widget area */
+  .chatbot-wrapper {
+    @apply fixed bottom-8 right-8 z-50 flex flex-col items-end;
+  }
+
+  /* Launcher button (like your screenshot: black pill + icon + “Chat”) */
+  .chatbot-launcher {
+    @apply h-12 px-5 rounded-2xl flex items-center justify-center gap-3 transition-colors;
+    background: #0f8a83;;
+    color: #f1f0e9; /* icon uses currentColor */
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  }
+  .chatbot-launcher:hover {
+    background: #0f8a83;;
+  }
+
+  .launcher-icon {
+    @apply w-[22px] h-[22px];
+  }
+
+  .launcher-label {
+    @apply text-[22px] font-semibold leading-none;
+  }
+
+  /* Popup card */
+  .chatbot-popup {
+    @apply w-[380px] h-[720px] overflow-hidden flex flex-col border relative;
+    border-radius: 26px;
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 30px 70px rgba(2, 6, 23, 0.18);
+    max-height: calc(100vh - 64px);
+    background: #f6f7fb;
+  }
+
+  /* ✅ Soft abstract background (no image file needed) */
+  .chatbot-popup::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    background:
+      radial-gradient(
+        520px 520px at 88% 38%,
+        rgba(45, 212, 191, 0.28) 0%,
+        rgba(45, 212, 191, 0) 60%
+      ),
+      radial-gradient(
+        560px 560px at 18% 76%,
+        rgba(251, 113, 133, 0.22) 0%,
+        rgba(251, 113, 133, 0) 62%
+      ),
+      radial-gradient(
+        520px 520px at 22% 18%,
+        rgba(148, 163, 184, 0.18) 0%,
+        rgba(148, 163, 184, 0) 60%
+      ),
+      linear-gradient(180deg, #f8fafc 0%, #f5f7ff 100%);
+  }
+
+  /* Ensure content renders above background */
+  .chat-header,
+  .chatbot-body,
+  .chat-footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .chat-header {
+    @apply px-5 py-4 flex items-center justify-between;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    color: #0f172a;
+  }
+
+  .header-info {
+    @apply flex items-center gap-3;
+  }
+
+  .header-icon-container {
+    @apply w-9 h-9 rounded-full flex items-center justify-center;
+    background: #0f766e;
+    color: #ffffff;
+  }
+
+  .logo-text {
+    @apply text-[15px] font-semibold tracking-tight;
+  }
+
+  .header-arrow {
+    @apply transition-colors;
+    color: rgba(15, 23, 42, 0.55);
+  }
+  .header-arrow:hover {
+    color: rgba(15, 23, 42, 0.9);
+  }
+
+  .header-action-btn {
+    @apply w-9 h-9 rounded-full flex items-center justify-center transition-colors;
+    color: rgba(15, 23, 42, 0.75);
+  }
+  .header-action-btn:hover {
+    background: rgba(15, 23, 42, 0.06);
+    color: rgba(15, 23, 42, 0.95);
+  }
+
+  /* Body */
+  .chatbot-body {
+    @apply flex-1 overflow-y-auto px-5 py-6 space-y-4;
+    background: transparent;
+  }
+
+  .chatbot-body::-webkit-scrollbar {
+    width: 10px;
+  }
+  .chatbot-body::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.18);
+    border-radius: 999px;
+    border: 3px solid rgba(255, 255, 255, 0.45);
+  }
+
+  /* Messages */
+  .message {
+    @apply w-full flex items-end;
+  }
+
+  .bot-message {
+    @apply justify-start;
+  }
+
+  .user-message {
+    @apply justify-end;
+  }
+
+  .message-text-container {
+    @apply max-w-[86%];
+  }
+
+  .message-text {
+    @apply px-4 py-3 text-[14px] leading-relaxed;
+    word-break: break-word;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    box-shadow: 0 14px 30px rgba(2, 6, 23, 0.08);
+  }
+
+  /* Bot bubble */
+  .bot-message .message-text {
+    background: rgba(255, 255, 255, 0.96);
+    color: #334155;
+    border-color: rgba(15, 23, 42, 0.08);
+  }
+
+  /* User bubble (teal pill) */
+  .user-message .message-text {
+    background: #0f8a83;
+    color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.06);
+    border-radius: 999px;
+    padding: 12px 18px;
+    box-shadow: 0 16px 34px rgba(13, 148, 136, 0.22);
+  }
+
+  /* Error state */
+  .error .message-text {
+    background: #fff1f2;
+    color: #9f1239;
+    border-color: rgba(159, 18, 57, 0.25);
+    box-shadow: none;
+  }
+
+  /* Footer */
+  .chat-footer {
+    @apply p-4 shrink-0;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+  }
+
+  .chat-form {
+    @apply w-full flex items-center gap-3;
+  }
+
+  /* Input pill */
+  .message-input {
+    @apply flex-1 outline-none text-[14px] px-4 py-3;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 999px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    box-shadow: 0 14px 30px rgba(2, 6, 23, 0.06);
+    color: #0f172a;
+    min-width: 0;
+  }
+  .message-input::placeholder {
+    color: rgba(15, 23, 42, 0.45);
+  }
+
+  /* Send button (teal circle) */
+  .send-btn {
+    @apply w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors;
+    background: #0f8a83;
+    color: #ffffff;
+    box-shadow: 0 16px 34px rgba(13, 148, 136, 0.22);
+  }
+  .send-btn:hover {
+    background: #0f766e;
+  }
+  .send-btn:disabled {
+    @apply opacity-60 cursor-not-allowed;
+    box-shadow: none;
+  }
+  .message-input:disabled {
+    @apply opacity-70 cursor-not-allowed;
+  }
+
+  /* ✅ EMBED MODE helpers */
+  .chatbot-embed-root {
+    width: 100%;
+    height: 100%;
+  }
+
+  .chatbot-embed-fill {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+
+  /* Mobile */
+  @media (max-width: 420px) {
+    .chatbot-wrapper {
+      @apply bottom-4 right-4 left-4 items-stretch;
+    }
+
+    .chatbot-popup {
+      @apply w-auto h-[82vh];
+      max-height: calc(100vh - 24px);
+    }
+
+    .chatbot-launcher {
+      @apply self-end;
+    }
+  }
+}
